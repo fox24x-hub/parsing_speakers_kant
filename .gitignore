@@ -1,0 +1,9 @@
+venv/
+.env
+*.pyc
+__pycache__/
+.pytest_cache/
+*.log
+.DS_Store
+.migrate/
+railway.toml
