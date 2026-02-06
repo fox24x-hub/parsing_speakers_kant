@@ -8,35 +8,47 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message
 
 from config.settings import settings
-from handlers import speaker_handlers
+from handlers.speakers_brief import router as speakers_brief_router
 
+# Настройка логирования
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 async def start_handler(message: Message):
+    """Обработчик команды /start"""
     await message.answer(
         "🚀 KantSpeakersBot готов!\n\n"
         "Команды:\n"
         "/topics — показать сезоны и темы\n"
-        "/find_speakers winter \"горные лыжи\"",
-        parse_mode=None,  # чтобы не ругался Markdown
+        '/find_speakers winter "горные лыжи"'
     )
 
 
 async def main():
+    """Главная функция запуска бота"""
+    # Создание экземпляра бота
     bot = Bot(
         token=settings.bot_token,
-        default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN),
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML),  # HTML безопаснее для обычного текста
     )
+    
+    # Создание диспетчера
     dp = Dispatcher()
 
+    # Регистрация обработчиков
     dp.message.register(start_handler, CommandStart())
-    dp.include_router(speaker_handlers.router)
+    
+    # Подключение роутеров
+    dp.include_router(speakers_brief_router)
 
+    # Удаление вебхука и старых обновлений
     await bot.delete_webhook(drop_pending_updates=True)
-    print("🤖 Бот запущен...")
-    await dp.start_polling(bot)  # метод Dispatcher.start_polling доступен в aiogram 3.x
+    
+    logger.info("🤖 Бот запущен...")
+    
+    # Запуск polling
+    await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
