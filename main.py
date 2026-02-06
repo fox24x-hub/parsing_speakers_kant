@@ -25,11 +25,14 @@ async def start_handler(message: Message):
             "🚀 KantSpeakersBot готов!\n\n"
             "Команды:\n"
             "/topics — показать сезоны и темы\n"
-            '/find_speakers <sport> — поиск спикеров'
+            "/find_speakers — поиск спикеров по навыку\n\n"
+            "Используйте /topics для просмотра всех категорий",
+            parse_mode=None  # Отключаем парсинг для простого текста
         )
         logger.info(f"Start command from user {message.from_user.id}")
     except Exception as e:
         logger.error(f"Error in start_handler: {e}")
+
 
 
 async def error_handler(event: ErrorEvent):
