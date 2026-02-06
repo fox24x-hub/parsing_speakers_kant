@@ -5,7 +5,7 @@ from config.settings import Settings
 
 settings = Settings()
 
-engine = create_engine(settings.database_url)
+engine = create_engine(settings.postgres_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_session() -> Session:
@@ -14,7 +14,7 @@ def get_session() -> Session:
     try:
         return db
     finally:
-        pass  # Закрытие сессии должно происходить вручную
+        db.close()  # Закрытие сессии должно происходить вручную
 
 def init_db():
     """Initialize database tables."""
