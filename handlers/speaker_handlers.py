@@ -9,7 +9,6 @@ from database.session import SessionLocal
 from database.session import get_session
 from database.models import Speaker,
 from utils.formatters import format_speaker_brief
-from config.topics import TOPICS
 from database.models import Speaker, ManualSpeaker
 from config.topics import KANT_TOPICS
 
