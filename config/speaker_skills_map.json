@@ -1,0 +1,42 @@
+{
+  "/xc_ski_speakers": {
+    "sport": "xc_ski",
+    "skill": "xc-ski-speakers",
+    "season": "зима"
+  },
+  "/alpine_speakers": {
+    "sport": "alpine",
+    "skill": "alpine-speakers",
+    "season": "зима"
+  },
+  "/snowboard_speakers": {
+    "sport": "snowboard",
+    "skill": "snowboard-speakers",
+    "season": "зима"
+  },
+  "/run_speakers": {
+    "sport": "run",
+    "skill": "run-speakers",
+    "season": "весна-осень"
+  },
+  "/trailrun_speakers": {
+    "sport": "trailrun",
+    "skill": "trailrun-speakers",
+    "season": "весна-осень"
+  },
+  "/cycling_speakers": {
+    "sport": "cycling",
+    "skill": "cycling-speakers",
+    "season": "весна-осень"
+  },
+  "/swim_speakers": {
+    "sport": "swim",
+    "skill": "swim-speakers",
+    "season": "круглый год"
+  },
+  "/hiking_speakers": {
+    "sport": "hiking",
+    "skill": "hiking-speakers",
+    "season": "весна-осень"
+  }
+}
