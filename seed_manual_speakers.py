@@ -1,93 +1,43 @@
-# seed_manual_speakers.py
+import asyncio
+import logging
 
-from database.session import SessionLocal
-from database.models import ManualSpeaker
+from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+from aiogram.filters import CommandStart
+from aiogram.types import Message
 
-# Список ручных спикеров — пример, потом подставишь свои каналы
-SEED_SPEAKERS = [
-    # ТРИАТЛОН
-    {
-        "name": "Triathlon Russia Channel",
-        "platform": "YouTube",
-        "profile_url": "https://www.youtube.com/@triathlon_russia",
-        "description": "Канал о тренировках и стартах по триатлону в России.",
-        "season": "summer",
-        "topic": "триатлон",
-        "region": "Россия",
-    },
-    {
-        "name": "Ural Triathlon Club",
-        "platform": "YouTube",
-        "profile_url": "https://www.youtube.com/@ural_tri_club",
-        "description": "Клуб триатлона в УрФО, разбор тренировок и стартов.",
-        "season": "summer",
-        "topic": "триатлон",
-        "region": "УрФО",
-    },
+from config.settings import settings
+from handlers import speaker_handlers
 
-    # ТРЕЙЛРАННИНГ
-    {
-        "name": "Ural Trail Running",
-        "platform": "YouTube",
-        "profile_url": "https://www.youtube.com/@ural_trail_running",
-        "description": "Трейлы и горные забеги на Урале, советы по подготовке.",
-        "season": "spring",
-        "topic": "трейлраннинг",
-        "region": "УрФО",
-    },
-    {
-        "name": "Russian Trail Running",
-        "platform": "YouTube",
-        "profile_url": "https://www.youtube.com/@russian_trail",
-        "description": "Трейлраннинг по всей России, обзоры стартов и экипировки.",
-        "season": "autumn",
-        "topic": "трейлраннинг",
-        "region": "Россия",
-    },
-
-    # ПОХОДЫ / ТУРИЗМ
-    {
-        "name": "Походы по Уралу",
-        "platform": "YouTube",
-        "profile_url": "https://www.youtube.com/@ural_hiking",
-        "description": "Маршруты и советы по походам в Уральском регионе.",
-        "season": "summer",
-        "topic": "походы",
-        "region": "УрФО",
-    },
-    {
-        "name": "Russian Hiking Guide",
-        "platform": "YouTube",
-        "profile_url": "https://www.youtube.com/@russian_hiking",
-        "description": "Пеший туризм, трекинг и снаряжение для походов по России.",
-        "season": "autumn",
-        "topic": "походы",
-        "region": "Россия",
-    },
-]
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
-def main():
-    db = SessionLocal()
-    try:
-        for data in SEED_SPEAKERS:
-            # Проверяем, нет ли уже такого URL в базе
-            exists = (
-                db.query(ManualSpeaker)
-                .filter(ManualSpeaker.profile_url == data["profile_url"])
-                .first()
-            )
-            if exists:
-                continue
+async def start_handler(message: Message):
+    await message.answer(
+        "🚀 KantSpeakersBot готов!\n\n"
+        "Команды:\n"
+        "/topics — показать сезоны и темы\n"
+        "/find_speakers winter \"горные лыжи\"",
+        parse_mode=None,  # чтобы не ругался Markdown
+    )
 
-            speaker = ManualSpeaker(**data)
-            db.add(speaker)
 
-        db.commit()
-        print("✅ Manual speakers seeded.")
-    finally:
-        db.close()
+async def main():
+    bot = Bot(
+        token=settings.bot_token,
+        default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN),
+    )
+    dp = Dispatcher()
+
+    dp.message.register(start_handler, CommandStart())
+    dp.include_router(speaker_handlers.router)
+
+    await bot.delete_webhook(drop_pending_updates=True)
+    print("🤖 Бот запущен...")
+    await dp.start_polling(bot)  # у оригинального Dispatcher этот метод есть [][]
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
