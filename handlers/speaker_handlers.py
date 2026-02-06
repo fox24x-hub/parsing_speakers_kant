@@ -6,11 +6,10 @@ from config.settings import settings
 from parsers.youtube_parser import search_youtube_experts
 from ai_analyzer.gpt_analyzer import analyze_speakers
 from database.session import SessionLocal
-from database.session import get_session
-from database.models import Speaker,
-from utils.formatters import format_speaker_brief
 from database.models import Speaker, ManualSpeaker
 from config.topics import KANT_TOPICS
+
+
 
 router = Router()
 
