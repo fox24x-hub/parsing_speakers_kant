@@ -7,10 +7,7 @@ from parsers.youtube_parser import search_youtube_experts
 from ai_analyzer.gpt_analyzer import analyze_speakers
 from database.session import SessionLocal
 from database.session import get_session
-from database.models import Speaker, Analysis
-from ai_analyzer.gpt_analyzer import analyze_speaker_content
-from parsers.vk_parser import parse_vk_data
-from parsers.youtube_parser import parse_youtube_data
+from database.models import Speaker,
 from utils.formatters import format_speaker_brief
 from config.topics import TOPICS
 from database.models import Speaker, ManualSpeaker
