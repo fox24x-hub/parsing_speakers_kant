@@ -1,17 +1,18 @@
 # handlers/speakers_brief.py
 from aiogram import Router
-from aiogram.filters import Command
 from aiogram.types import Message
+from aiogram.filters import Command
 
-# Создаем роутер
 router = Router()
 
-# Пример хэндлера
-@router.message(Command("speakers"))
-async def speakers_brief_handler(message: Message):
-    await message.answer("Список спикеров...")
-# handlers/speaker_skills_map.py
+@router.message(Command("topics"))
+async def topics_handler(message: Message):
+    await message.answer("Список тем...")
 
+@router.message(Command("find_speakers"))
+async def find_speakers_handler(message: Message):
+    await message.answer("Поиск спикеров...")
+    
 """Speaker skills mapping for different sports."""
 
 SPEAKER_SKILLS_MAP = {
