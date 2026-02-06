@@ -36,7 +36,7 @@ async def main():
 
     await bot.delete_webhook(drop_pending_updates=True)
     print("🤖 Бот запущен...")
-    await dp.start_polling(bot)  # у оригинального Dispatcher этот метод есть [][]
+    await dp.start_polling(bot)  # метод Dispatcher.start_polling доступен в aiogram 3.x
 
 
 if __name__ == "__main__":
